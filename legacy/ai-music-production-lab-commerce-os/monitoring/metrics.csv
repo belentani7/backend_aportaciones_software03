@@ -1,0 +1,4 @@
+timestamp_utc,event_type,status,job_id,plugin,model,render_time_s,cpu_pct,gpu_pct,gpu_memory_mb,disk_total_gb,disk_free_gb,pid,error_code,message
+2026-08-21T04:08:11Z,resource_sample,info,,Vital,local-test,,0.0,,,39.47,31.73,,,Muestra de recursos registrada
+2026-08-21T04:08:11Z,render_started,started,smoke-render,FPC,demo-generator,,0.0,,,39.47,31.73,,,Render o generación iniciado
+2026-08-21T04:08:12Z,generation_completed,success,smoke-render,FPC,demo-generator,1.15,0.0,,,39.47,31.73,,,Prueba de renderización completada

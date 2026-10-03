@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Music Production Lab · Monitoring</title>
+  <style>
+    :root { --bg:#0a0d14; --surface:#111725; --panel:#151d2d; --line:#28334b; --text:#eef3ff; --muted:#9ba9c0; --blue:#6fa8ff; --cyan:#58e0d1; --amber:#f7bb5c; --red:#ff7185; --green:#77df9a; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); background:radial-gradient(1000px 500px at 100% -10%, #1f3a6a55, transparent 65%),var(--bg); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .shell { max-width:1440px; margin:0 auto; padding:34px 28px 48px; }
+    header { display:flex; justify-content:space-between; gap:28px; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:28px; }
+    .eyebrow { color:var(--cyan); font-size:12px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; margin:0 0 8px; }
+    h1 { font-size:clamp(27px,4vw,42px); line-height:1.08; margin:0; letter-spacing:-.04em; }
+    .subtitle { color:var(--muted); margin:11px 0 0; max-width:720px; line-height:1.55; }
+    .controlbar { display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; }
+    button,.file-label,select { border:1px solid var(--line); color:var(--text); background:#18233a; border-radius:9px; padding:10px 13px; font:inherit; cursor:pointer; }
+    button:hover,.file-label:hover { border-color:var(--blue); background:#203255; }
+    input[type=file] { display:none; }
+    select { color:var(--muted); }
+    .status { margin:20px 0; padding:12px 14px; border:1px solid var(--line); border-radius:9px; color:var(--muted); background:#0e1420; font-size:14px; }
+    .status.good { color:var(--green); border-color:#2d674f; }
+    .status.warn { color:var(--amber); border-color:#6f572e; }
+    .filters { display:flex; gap:11px; flex-wrap:wrap; align-items:center; margin:20px 0 16px; }
+    .filters span { color:var(--muted); font-size:13px; margin-right:2px; }
+    .cards { display:grid; grid-template-columns:repeat(6,minmax(148px,1fr)); gap:14px; }
+    .card,.panel { border:1px solid var(--line); background:linear-gradient(145deg,#151d2d,#101725); border-radius:12px; box-shadow:0 18px 32px #00000018; }
+    .card { padding:16px; min-height:126px; }
+    .card .label { color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+    .metric { font-size:30px; font-weight:800; letter-spacing:-.05em; margin-top:11px; }
+    .note { color:var(--muted); font-size:12px; margin-top:7px; min-height:16px; }
+    .accent-blue { color:var(--blue); } .accent-cyan { color:var(--cyan); } .accent-green { color:var(--green); } .accent-amber { color:var(--amber); } .accent-red { color:var(--red); }
+    .grid { display:grid; grid-template-columns:1.2fr .8fr; gap:14px; margin-top:14px; }
+    .panel { padding:18px; overflow:hidden; }
+    .panel h2 { font-size:15px; margin:0 0 3px; letter-spacing:-.01em; }
+    .panel p { font-size:12px; color:var(--muted); margin:0 0 16px; line-height:1.45; }
+    canvas { width:100%; height:215px; display:block; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th { font-size:11px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.06em; text-align:left; padding:0 10px 11px; border-bottom:1px solid var(--line); }
+    td { padding:12px 10px; border-bottom:1px solid #202a3d; vertical-align:top; }
+    tr:last-child td { border-bottom:0; }
+    .table-wrap { overflow:auto; max-height:320px; }
+    .badge { padding:3px 7px; display:inline-block; border-radius:999px; font-size:11px; font-weight:800; white-space:nowrap; }
+    .success { color:var(--green); background:#1d4c393d; } .failure,.error { color:var(--red); background:#5a26333d; } .info,.started { color:var(--blue); background:#203b6b44; }
+    .empty { color:var(--muted); padding:24px 8px; text-align:center; }
+    .footer { color:var(--muted); font-size:12px; margin:18px 0 0; line-height:1.5; }
+    code { color:#b7cdf8; }
+    @media (max-width:1120px) { .cards { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:760px) { .shell { padding:23px 16px; } header { display:block; } .controlbar { justify-content:flex-start; margin-top:20px; } .cards { grid-template-columns:repeat(2,1fr); } .grid { grid-template-columns:1fr; } .metric { font-size:25px; } }
+    @media (max-width:420px) { .cards { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">AI Music Production Lab / Monitoring</p>
+        <h1>Estado de renders, modelos y recursos</h1>
+        <p class="subtitle">Panel local que interpreta <code>metrics.csv</code>. Los valores se recalculan en el navegador; no se carga ninguna telemetría ni dependencia externa.</p>
+      </div>
+      <div class="controlbar">
+        <button id="reload">Recargar CSV</button>
+        <label class="file-label" for="fileInput">Abrir otro CSV</label>
+        <input id="fileInput" type="file" accept=".csv,text/csv">
+      </div>
+    </header>
+    <div id="status" class="status">Intentando cargar <code>metrics.csv</code>…</div>
+    <section class="filters" aria-label="Filtros">
+      <span>Periodo</span>
+      <select id="period"><option value="all">Todo el historial</option><option value="1">Últimas 24 h</option><option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option></select>
+      <span>Plugin</span>
+      <select id="pluginFilter"><option value="all">Todos los plugins</option></select>
+    </section>
+    <section class="cards" aria-label="Indicadores principales">
+      <article class="card"><div class="label">CPU media</div><div id="cpu" class="metric accent-blue">—</div><div id="cpuNote" class="note">Sin muestras</div></article>
+      <article class="card"><div class="label">GPU media</div><div id="gpu" class="metric accent-cyan">—</div><div id="gpuNote" class="note">Sin telemetría GPU</div></article>
+      <article class="card"><div class="label">Render medio</div><div id="render" class="metric accent-amber">—</div><div id="renderNote" class="note">Sin renders cerrados</div></article>
+      <article class="card"><div class="label">Éxito de generaciones</div><div id="successRate" class="metric accent-green">—</div><div id="successNote" class="note">Sin generaciones cerradas</div></article>
+      <article class="card"><div class="label">Errores de modelos</div><div id="errors" class="metric accent-red">0</div><div id="errorNote" class="note">No hay errores registrados</div></article>
+      <article class="card"><div class="label">Disco disponible</div><div id="disk" class="metric accent-cyan">—</div><div id="diskNote" class="note">Sin muestra de disco</div></article>
+    </section>
+    <section class="grid">
+      <article class="panel"><h2>CPU y GPU por muestra</h2><p>La CPU se toma del proceso indicado por PID o del equipo completo. La GPU sólo se muestra si el sistema expone <code>nvidia-smi</code>.</p><canvas id="resourceChart" role="img" aria-label="Gráfico de CPU y GPU"></canvas></article>
+      <article class="panel"><h2>Tiempos de render</h2><p>Duración de las generaciones o renders cerrados, en segundos.</p><canvas id="renderChart" role="img" aria-label="Gráfico de tiempos de render"></canvas></article>
+    </section>
+    <section class="grid">
+      <article class="panel"><h2>Rendimiento por plugin</h2><p>Agregación a partir de las etiquetas de plugin registradas por el monitor.</p><div id="pluginSummary" class="table-wrap"></div></article>
+      <article class="panel"><h2>Errores de modelos</h2><p>Últimos errores declarados por el proceso de generación.</p><div id="errorTable" class="table-wrap"></div></article>
+    </section>
+    <section class="panel" style="margin-top:14px"><h2>Eventos recientes</h2><p>Últimos 20 eventos dentro del filtro seleccionado.</p><div id="recentTable" class="table-wrap"></div></section>
+    <p class="footer">Para actualización automática, abra esta carpeta con <code>python -m http.server 8080</code> y visite <code>http://localhost:8080/dashboard.html</code>. Si abre el archivo directamente, utilice “Abrir otro CSV” por las restricciones de lectura del navegador.</p>
+  </main>
+<script>
+(() => {
+  let sourceRows = [];
+  const $ = id => document.getElementById(id);
+  const fmt = (n, digits=1) => Number.isFinite(n) ? n.toLocaleString('es-ES',{maximumFractionDigits:digits,minimumFractionDigits:digits}) : '—';
+  const num = value => { const n = Number.parseFloat(value); return Number.isFinite(n) ? n : null; };
+  const mean = values => { const valid = values.filter(Number.isFinite); return valid.length ? valid.reduce((a,b)=>a+b,0)/valid.length : null; };
+  const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const parseCSV = text => {
+    const lines = text.replace(/^\uFEFF/, '').trim().split(/\r?\n/).filter(Boolean);
+    if (!lines.length) return [];
+    const split = line => { const out=[]; let cell='', quoted=false; for(let i=0;i<line.length;i++){const c=line[i]; if(c==='"'){if(quoted&&line[i+1]==='"'){cell+='"';i++;}else quoted=!quoted;}else if(c===','&&!quoted){out.push(cell);cell='';}else cell+=c;} out.push(cell); return out; };
+    const headers=split(lines.shift()).map(h=>h.trim());
+    return lines.map(line=>{const vals=split(line); return Object.fromEntries(headers.map((h,i)=>[h,vals[i]??'']));}).filter(r=>r.timestamp_utc);
+  };
+  const setStatus = (text, type='') => { const el=$('status'); el.className='status '+type; el.innerHTML=text; };
+  const periodRows = () => {
+    const days=$('period').value, plugin=$('pluginFilter').value, cutoff=days==='all'?0:Date.now()-Number(days)*86400000;
+    return sourceRows.filter(r => (!cutoff || Date.parse(r.timestamp_utc)>=cutoff) && (plugin==='all'||r.plugin===plugin));
+  };
+  const labelStatus = status => `<span class="badge ${esc(status||'info')}">${esc(status||'info')}</span>`;
+  function table(rows, cols, empty){
+    if(!rows.length) return `<div class="empty">${esc(empty)}</div>`;
+    return `<table><thead><tr>${cols.map(c=>`<th>${esc(c.label)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${c.html ? c.html(r) : esc(r[c.key]||'—')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  }
+  function canvasChart(id, datasets, labels, unit) {
+    const canvas=$(id), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1, w=Math.max(300,rect.width), h=Math.max(160,rect.height);
+    canvas.width=w*dpr; canvas.height=h*dpr; const ctx=canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+    const all=datasets.flatMap(d=>d.values).filter(Number.isFinite); if(!all.length){ctx.fillStyle='#9ba9c0';ctx.textAlign='center';ctx.font='13px system-ui';ctx.fillText('Aún no hay datos para este gráfico',w/2,h/2);return;}
+    const min=Math.min(0,...all), max=Math.max(...all,1), pad={l:42,r:12,t:18,b:28}, cw=w-pad.l-pad.r, ch=h-pad.t-pad.b;
+    ctx.font='11px system-ui';ctx.strokeStyle='#28334b';ctx.fillStyle='#9ba9c0';ctx.textAlign='right';
+    for(let i=0;i<=4;i++){const value=min+(max-min)*i/4, y=pad.t+ch-(ch*i/4);ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(`${Math.round(value)}${unit}`,pad.l-7,y+4);}
+    datasets.forEach((data, ds) => {ctx.strokeStyle=data.color;ctx.lineWidth=2;ctx.beginPath();let started=false;data.values.forEach((value,i)=>{if(!Number.isFinite(value)){started=false;return;}const x=pad.l+(labels.length<=1?cw/2:(i/(labels.length-1))*cw),y=pad.t+ch-((value-min)/(max-min))*ch;if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);});ctx.stroke();ctx.fillStyle=data.color;ctx.fillRect(pad.l+ds*108,pad.t-12,8,8);ctx.fillStyle='#9ba9c0';ctx.textAlign='left';ctx.fillText(data.name,pad.l+12+ds*108,pad.t-4);});
+    ctx.fillStyle='#9ba9c0';ctx.textAlign='left'; const first=labels[0]||'', last=labels.at(-1)||'';ctx.fillText(first,pad.l,h-7);ctx.textAlign='right';ctx.fillText(last,w-pad.r,h-7);
+  }
+  function updateFilters(){const select=$('pluginFilter'), selected=select.value;const names=[...new Set(sourceRows.map(r=>r.plugin).filter(Boolean))].sort();select.innerHTML='<option value="all">Todos los plugins</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join(''); select.value=names.includes(selected)?selected:'all';}
+  function render(){
+    const rows=periodRows(), samples=rows.filter(r=>r.event_type==='resource_sample'||r.event_type==='render_started'||r.event_type==='generation_completed'||r.event_type==='generation_failed');
+    const renders=rows.filter(r=>r.event_type==='generation_completed'||r.event_type==='generation_failed'); const successes=renders.filter(r=>r.status==='success').length, failures=renders.filter(r=>r.status==='failure').length;
+    const cpu=mean(samples.map(r=>num(r.cpu_pct))), gpu=mean(samples.map(r=>num(r.gpu_pct))), renderTime=mean(renders.map(r=>num(r.render_time_s))), diskRows=samples.filter(r=>num(r.disk_free_gb)!==null).sort((a,b)=>Date.parse(b.timestamp_utc)-Date.parse(a.timestamp_utc)), latestDisk=num(diskRows[0]?.disk_free_gb);
+    $('cpu').textContent=cpu===null?'—':fmt(cpu)+'%'; $('cpuNote').textContent=cpu===null?'Sin muestras de CPU':samples.filter(r=>num(r.cpu_pct)!==null).length+' muestras';
+    $('gpu').textContent=gpu===null?'—':fmt(gpu)+'%'; $('gpuNote').textContent=gpu===null?'GPU no detectada o sin datos':samples.filter(r=>num(r.gpu_pct)!==null).length+' muestras';
+    $('render').textContent=renderTime===null?'—':fmt(renderTime)+' s'; $('renderNote').textContent=renders.length?renders.length+' renders cerrados':'Sin renders cerrados';
+    $('successRate').textContent=renders.length?fmt((successes/renders.length)*100,0)+'%':'—'; $('successNote').textContent=renders.length?`${successes} correctas · ${failures} fallidas`:'Sin generaciones cerradas';
+    const errors=rows.filter(r=>r.event_type==='model_error'||r.status==='failure'); $('errors').textContent=errors.length; $('errorNote').textContent=errors.length?errors.length+' eventos con error':'No hay errores registrados';
+    $('disk').textContent=latestDisk===null?'—':fmt(latestDisk)+' GB'; $('diskNote').textContent=latestDisk===null?'Sin muestra de disco':`Total: ${fmt(num(diskRows[0]?.disk_total_gb))} GB`;
+    const series=samples.slice(-50), labels=series.map(r=>new Date(r.timestamp_utc).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'}));
+    canvasChart('resourceChart',[{name:'CPU',color:'#6fa8ff',values:series.map(r=>num(r.cpu_pct))},{name:'GPU',color:'#58e0d1',values:series.map(r=>num(r.gpu_pct))}],labels,'%');
+    const renderSeries=renders.slice(-50); canvasChart('renderChart',[{name:'Render',color:'#f7bb5c',values:renderSeries.map(r=>num(r.render_time_s))}],renderSeries.map(r=>new Date(r.timestamp_utc).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'})),' s');
+    const groups={}; rows.filter(r=>r.plugin).forEach(r=>{const g=groups[r.plugin] ||= {plugin:r.plugin,cpu:[],gpu:[],render:[],ok:0,closed:0};const c=num(r.cpu_pct),gval=num(r.gpu_pct),rt=num(r.render_time_s);if(c!==null)g.cpu.push(c);if(gval!==null)g.gpu.push(gval);if(rt!==null)g.render.push(rt);if(r.event_type==='generation_completed'||r.event_type==='generation_failed'){g.closed++;if(r.status==='success')g.ok++;}});
+    const summary=Object.values(groups).sort((a,b)=>b.closed-a.closed||a.plugin.localeCompare(b.plugin));
+    $('pluginSummary').innerHTML=table(summary,[{label:'Plugin',key:'plugin'},{label:'CPU media',html:r=>mean(r.cpu)===null?'—':fmt(mean(r.cpu))+'%'},{label:'GPU media',html:r=>mean(r.gpu)===null?'—':fmt(mean(r.gpu))+'%'},{label:'Render medio',html:r=>mean(r.render)===null?'—':fmt(mean(r.render))+' s'},{label:'Éxito',html:r=>r.closed?fmt(100*r.ok/r.closed,0)+'%':'—'}],'No hay eventos con plugin etiquetado.');
+    const errorRows=errors.sort((a,b)=>Date.parse(b.timestamp_utc)-Date.parse(a.timestamp_utc)).slice(0,20); $('errorTable').innerHTML=table(errorRows,[{label:'Fecha',html:r=>esc(new Date(r.timestamp_utc).toLocaleString('es-ES'))},{label:'Modelo',key:'model'},{label:'Código',key:'error_code'},{label:'Detalle',key:'message'}],'No se han registrado errores.');
+    const recent=rows.sort((a,b)=>Date.parse(b.timestamp_utc)-Date.parse(a.timestamp_utc)).slice(0,20); $('recentTable').innerHTML=table(recent,[{label:'Fecha',html:r=>esc(new Date(r.timestamp_utc).toLocaleString('es-ES'))},{label:'Evento',key:'event_type'},{label:'Estado',html:r=>labelStatus(r.status)},{label:'Plugin',key:'plugin'},{label:'Modelo',key:'model'},{label:'Detalle',key:'message'}],'No hay eventos para los filtros seleccionados.');
+  }
+  function loadText(text, origin){sourceRows=parseCSV(text);updateFilters();render();setStatus(`<strong>${sourceRows.length}</strong> eventos cargados desde ${esc(origin)}. Última actualización del panel: ${new Date().toLocaleString('es-ES')}.`,'good');}
+  async function reload(){try{const response=await fetch('metrics.csv',{cache:'no-store'});if(!response.ok)throw new Error(String(response.status));loadText(await response.text(),'metrics.csv');}catch(error){sourceRows=[];updateFilters();render();setStatus('No se pudo leer <code>metrics.csv</code> automáticamente. Abra esta carpeta con un servidor local o cargue el archivo mediante “Abrir otro CSV”.','warn');}}
+  $('reload').addEventListener('click',reload); $('period').addEventListener('change',render); $('pluginFilter').addEventListener('change',render); $('fileInput').addEventListener('change',event=>{const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>loadText(reader.result,file.name);reader.readAsText(file,'utf-8');}); window.addEventListener('resize',render); reload();
+})();
+</script>
+</body>
+</html>

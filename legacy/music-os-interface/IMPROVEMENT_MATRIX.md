@@ -1,0 +1,440 @@
+# Registro verificable de 400 mejoras
+
+> Este registro separa **planificado** de **implementado**. Una mejora solo pasa a completada cuando existe evidencia de código, prueba, validación o documentación asociada.
+
+## Vínculos de evidencia
+
+Cada ítem hereda el vínculo de evidencia explícito de su rango. El estado está en la casilla del propio ítem: `[ ]` significa planificado y `[x]` significa implementado y validado. No se consideran evidencia las afirmaciones sin ruta verificable.
+
+| IDs | Estado inicial | Evidencia exigida por cada ítem del rango |
+|---|---|---|
+| IM-001–IM-040 | Planificado | `server/musicKernel.ts` + `server/musicKernel.test.ts` o `server/routers/composition.ts` |
+| IM-041–IM-080 | Planificado | `server/musicKernel.ts` + prueba de prosodia en `server/musicKernel.test.ts` |
+| IM-081–IM-120 | Planificado | `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts` |
+| IM-121–IM-160 | Planificado | `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md` |
+| IM-161–IM-200 | Planificado | `client/src/lib/duck/project.ts` o `takeLibrary.ts` + `duckCore.test.ts` |
+| IM-201–IM-240 | Planificado | `client/src/pages/DuckStudio.tsx` o `Home.tsx` + contrato de interfaz |
+| IM-241–IM-280 | Planificado | `server/` o configuración + prueba de seguridad asociada |
+| IM-281–IM-320 | Planificado | `vitest.config.ts`, prueba automatizada o configuración de CI |
+| IM-321–IM-360 | Planificado | `desktop/`, `server/_core/` o runbook operativo verificable |
+| IM-361–IM-400 | Planificado | `README.md`, `docs/`, `.github/` o evidencia de publicación autorizada |
+
+## Núcleo de composición y teoría musical
+- [ ] IM-001 — Validar BPM de entrada en el router — prueba de contrato. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-002 — Validar tonalidad contra catálogo — prueba unitaria. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-003 — Validar compás contra catálogo — prueba unitaria. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-004 — Validar idioma de letra — esquema Zod. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-005 — Limitar longitud de concepto — prueba de límites. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-006 — Normalizar espacios en concepto — prueba unitaria. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-007 — Rechazar caracteres de control — prueba de seguridad. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-008 — Añadir modo instrumental explícito — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-009 — Añadir densidad armónica configurable — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-010 — Añadir complejidad rítmica configurable — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-011 — Añadir rango vocal objetivo — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-012 — Añadir duración objetivo — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-013 — Añadir intensidad objetivo — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-014 — Añadir forma musical objetivo — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-015 — Añadir semilla reproducible visible — exportación. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-016 — Añadir versión del algoritmo — proveniencia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-017 — Registrar proveedor efectivo — auditoría. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-018 — Registrar fallback de proveedor — auditoría. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-019 — Verificar duración de secciones — prueba kernel. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-020 — Verificar transición entre secciones — prueba kernel. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-021 — Detectar repetición excesiva de acordes — métrica. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-022 — Detectar acordes fuera de tonalidad — métrica. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-023 — Proponer sustitución dominante — generador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-024 — Proponer préstamo modal — generador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-025 — Añadir cadencia plagal — generador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-026 — Añadir cadencia rota — generador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-027 — Añadir conducción de voces — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-028 — Medir distancia de bajo — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-029 — Medir tensión armónica — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-030 — Medir contraste de secciones — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-031 — Añadir variación melódica — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-032 — Añadir motivo recurrente — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-033 — Añadir llamada y respuesta — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-034 — Añadir anacrusa opcional — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-035 — Añadir síncopa configurable — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-036 — Añadir polirritmia limitada — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-037 — Añadir humanización de tempo — productor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-038 — Añadir humanización de velocidad — productor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-039 — Añadir humanización de timing — productor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-040 — Añadir informe de decisiones musicales — auditoría. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+
+## Letras, prosodia y fonética
+- [ ] IM-041 — Detectar versos demasiado largos — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-042 — Detectar versos demasiado cortos — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-043 — Medir variación silábica — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-044 — Medir acentos por compás — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-045 — Señalar hiatos difíciles de cantar — fonética. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-046 — Señalar grupos consonánticos — fonética. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-047 — Señalar rimas forzadas — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-048 — Sugerir rima consonante — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-049 — Sugerir rima asonante — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-050 — Añadir aliteración controlada — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-051 — Añadir asonancia controlada — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-052 — Añadir repetición de gancho — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-053 — Añadir variación de pre-coro — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-054 — Añadir puente contrastante — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-055 — Añadir cierre lírico — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-056 — Añadir filtro de clichés — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-057 — Añadir detector de incoherencia semántica — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-058 — Añadir chequeo de persona narrativa — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-059 — Añadir chequeo de tiempo verbal — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-060 — Añadir chequeo de tema declarado — evaluador. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-061 — Añadir diccionario de pronunciación español — recurso. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-062 — Añadir diccionario de pronunciación portugués — recurso. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-063 — Añadir diccionario de pronunciación inglés — recurso. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-064 — Añadir segmentación catalán — recurso. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-065 — Añadir métricas para francés — recurso. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-066 — Añadir traducción de guía fonética — UI. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-067 — Mostrar sílabas cantadas — UI. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-068 — Mostrar acentos fuertes — UI. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-069 — Mostrar respiraciones sugeridas — UI. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-070 — Mostrar vocales sostenibles — UI. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-071 — Exportar guía de pronunciación — TXT. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-072 — Exportar guía de respiración — TXT. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-073 — Exportar letra por secciones — TXT. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-074 — Añadir notas de interpretación — Music IR. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-075 — Añadir modo rap — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-076 — Añadir modo balada — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-077 — Añadir modo canto coral — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-078 — Añadir modo vocal chop — prosodia. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-079 — Añadir modo bilingüe — compositor. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+- [ ] IM-080 — Añadir prueba de regresión prosódica — Vitest. · Evidencia: `server/musicKernel.ts` + `server/musicKernel.test.ts`
+
+## Motor Duck y secuenciación
+- [ ] IM-081 — Añadir patrón de 32 pasos — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-082 — Añadir patrón de 64 pasos — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-083 — Añadir cambio de compás — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-084 — Añadir cambio de tempo por escena — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-085 — Añadir escenas de patrones — proyecto. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-086 — Añadir encadenamiento de escenas — transporte. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-087 — Añadir modo canción — playlist. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-088 — Añadir cuenta previa — grabación. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-089 — Añadir metrónomo — transporte. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-090 — Añadir volumen de metrónomo — transporte. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-091 — Añadir tap tempo — transporte. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-092 — Añadir tempo nudge — transporte. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-093 — Añadir swing por escena — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-094 — Añadir probabilidad por paso — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-095 — Añadir repetición por paso — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-096 — Añadir flam por paso — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-097 — Añadir ratchet por paso — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-098 — Añadir velocity por paso — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-099 — Añadir microtiming por paso — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-100 — Añadir shift por patrón — secuenciador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-101 — Añadir duplicar patrón — UI. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-102 — Añadir invertir patrón — UI. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-103 — Añadir rotar patrón — UI. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-104 — Añadir aleatorizar patrón — UI. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-105 — Añadir deshacer patrón — historial. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-106 — Añadir rehacer patrón — historial. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-107 — Añadir copiar/pegar patrón — UI. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-108 — Añadir selección rectangular — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-109 — Añadir arrastre de notas — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-110 — Añadir cambio de longitud — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-111 — Añadir transposición — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-112 — Añadir cuantización de notas — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-113 — Añadir snap configurable — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-114 — Añadir controlador de modulación — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-115 — Añadir aftertouch — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-116 — Añadir pitch bend — piano roll. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-117 — Añadir automatización de parámetros — proyecto. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-118 — Añadir curva de automatización — proyecto. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-119 — Añadir exportación MIDI de Duck — exportador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-120 — Añadir importación MIDI en Duck — importador. · Evidencia: `client/src/lib/duck/sequencer.ts` + `client/src/lib/duck/duckCore.test.ts`
+
+## Grabación, voz y audio
+- [ ] IM-121 — Añadir monitor directo con latencia — audio. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-122 — Añadir selector mono/estéreo — audio. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-123 — Añadir selector de sample rate — audio. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-124 — Añadir selector de buffer — audio. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-125 — Añadir aviso de clipping — medidor. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-126 — Añadir true peak aproximado — medidor. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-127 — Añadir RMS por canal — medidor. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-128 — Añadir LUFS aproximado — medidor. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-129 — Añadir historial de nivel — visualización. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-130 — Añadir osciloscopio de entrada — visualización. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-131 — Añadir espectro de entrada — visualización. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-132 — Añadir espectro master — visualización. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-133 — Añadir marca de silencio — grabación. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-134 — Añadir división de tomas — grabación. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-135 — Añadir recorte no destructivo — grabación. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-136 — Añadir fade in de toma — edición. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-137 — Añadir fade out de toma — edición. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-138 — Añadir ganancia de toma — edición. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-139 — Añadir paneo de toma — edición. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-140 — Añadir mute de toma — edición. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-141 — Añadir solo de toma — edición. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-142 — Añadir color de toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-143 — Añadir etiquetas de toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-144 — Añadir búsqueda de toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-145 — Añadir reproducción de toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-146 — Añadir nombre editable de toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-147 — Añadir notas de toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-148 — Añadir duplicar toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-149 — Añadir consolidar toma — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-150 — Añadir limpieza de tomas huérfanas — biblioteca. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-151 — Añadir exportación WAV de toma — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-152 — Añadir exportación FLAC de toma — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-153 — Añadir exportación OGG de toma — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-154 — Añadir exportación de stems — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-155 — Añadir render offline de mezcla — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-156 — Añadir normalización de exportación — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-157 — Añadir dithering de exportación — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-158 — Añadir selector de bit depth — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-159 — Añadir metadatos de exportación — exportador. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+- [ ] IM-160 — Añadir prueba de codificación de audio — contrato. · Evidencia: `client/src/lib/duck/audioEngine.ts` + `docs/DUCK_STUDIO.md`
+
+## Persistencia, exportación y archivo
+- [ ] IM-161 — Añadir versión de esquema Duck — migración. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-162 — Añadir migración de proyectos Duck — prueba. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-163 — Añadir importación JSON Duck — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-164 — Añadir validación de importación — Zod. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-165 — Añadir detección de duplicado — biblioteca. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-166 — Añadir checksum de proyecto — exportación. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-167 — Añadir checksum de toma — biblioteca. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-168 — Añadir origen de preset — metadata. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-169 — Añadir fecha de preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-170 — Añadir ordenamiento de preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-171 — Añadir favoritos de preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-172 — Añadir categorías de preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-173 — Añadir búsqueda de preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-174 — Añadir importar preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-175 — Añadir conflicto de preset — UI. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-176 — Añadir backup manual local — exportación. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-177 — Añadir restauración manual local — importación. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-178 — Añadir indicador de cuota — almacenamiento. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-179 — Añadir aviso de cuota baja — almacenamiento. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-180 — Añadir limpieza selectiva — almacenamiento. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-181 — Añadir caché de picos — biblioteca. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-182 — Añadir miniaturas de onda — biblioteca. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-183 — Añadir tamaño de toma — biblioteca. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-184 — Añadir duración de proyecto — metadata. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-185 — Añadir conteo de eventos — metadata. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-186 — Añadir conteo de pistas — metadata. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-187 — Añadir huella de audio — metadata. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-188 — Añadir licencia de exportación — metadata. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-189 — Añadir archivo ZIP de proyecto — exportación. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-190 — Añadir manifest de archivo — exportación. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-191 — Añadir exportación de sesión — Duck. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-192 — Añadir importación de sesión — Duck. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-193 — Añadir historial de versiones — proyecto. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-194 — Añadir restaurar versión — proyecto. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-195 — Añadir bloqueo de escritura — proyecto. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-196 — Añadir bloqueo de importación gigante — seguridad. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-197 — Añadir límite de tomas — almacenamiento. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-198 — Añadir límite de tamaño por toma — almacenamiento. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-199 — Añadir prueba de recuperación local — Vitest. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+- [ ] IM-200 — Añadir prueba de proyecto corrupto — Vitest. · Evidencia: `client/src/lib/duck/project.ts` + `client/src/lib/duck/duckCore.test.ts`
+
+## UX, accesibilidad e internacionalización
+- [ ] IM-201 — Añadir navegación por teclado completa — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-202 — Añadir foco visible a pasos — accesibilidad. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-203 — Añadir atajo espacio transporte — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-204 — Añadir atajo R grabación — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-205 — Añadir atajo S guardar — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-206 — Añadir atajo E exportar — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-207 — Añadir atajo ? ayuda — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-208 — Añadir mapa de atajos — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-209 — Añadir skip link — accesibilidad. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-210 — Añadir landmarks semánticos — accesibilidad. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-211 — Añadir anuncios de transporte — ARIA. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-212 — Añadir anuncios de grabación — ARIA. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-213 — Añadir descripción de medidores — ARIA. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-214 — Añadir etiquetas de sliders — ARIA. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-215 — Añadir contraste auditado — accesibilidad. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-216 — Añadir modo alto contraste — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-217 — Añadir modo movimiento reducido — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-218 — Añadir escala tipográfica — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-219 — Añadir densidad compacta — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-220 — Añadir modo pantalla completa — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-221 — Añadir modo móvil optimizado — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-222 — Añadir orientación horizontal móvil — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-223 — Añadir persistencia de paneles — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-224 — Añadir redimensionado de paneles — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-225 — Añadir colapso de paneles — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-226 — Añadir búsqueda de comandos — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-227 — Añadir paleta de comandos — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-228 — Añadir onboarding contextual — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-229 — Añadir estados vacíos específicos — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-230 — Añadir errores recuperables — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-231 — Añadir confirmación de borrado — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-232 — Añadir undo de borrado — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-233 — Añadir traducción portugués completa — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-234 — Añadir traducción español completa — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-235 — Añadir traducción inglés completa — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-236 — Añadir selector de idioma — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-237 — Añadir formato de fecha local — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-238 — Añadir formato de dB accesible — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-239 — Añadir lectura RTL segura — i18n. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+- [ ] IM-240 — Añadir prueba de navegación teclado — UI. · Evidencia: `client/src/pages/DuckStudio.tsx` + contrato de interfaz
+
+## Seguridad, privacidad y gobernanza
+- [ ] IM-241 — Añadir CSP explícita — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-242 — Añadir cabeceras de seguridad — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-243 — Añadir rate limit de exportación — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-244 — Añadir rate limit de importación — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-245 — Añadir límite de payload — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-246 — Añadir validación de MIME — importación. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-247 — Añadir validación de extensión — importación. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-248 — Añadir sanitización de nombre archivo — exportación. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-249 — Añadir sanitización de nombre preset — Duck. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-250 — Añadir sanitización de nombre toma — Duck. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-251 — Añadir bloqueo de URL externa — Duck. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-252 — Añadir política de permisos micrófono — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-253 — Añadir política de permisos MIDI — servidor. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-254 — Añadir auditoría de rol admin — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-255 — Añadir auditoría de kill-switch — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-256 — Añadir auditoría de exportación — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-257 — Añadir auditoría de importación — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-258 — Añadir redacción de secretos — logs. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-259 — Añadir rotación de claves — operaciones. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-260 — Añadir expiración de sesión — auth. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-261 — Añadir protección CSRF — auth. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-262 — Añadir control de origen — auth. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-263 — Añadir control de tamaño audio — Duck. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-264 — Añadir cuota por usuario — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-265 — Añadir borrado seguro lógico — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-266 — Añadir consentimiento de micrófono — Duck. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-267 — Añadir aviso de privacidad local — Duck. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-268 — Añadir aviso de retención — backend. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-269 — Añadir evaluación de dependencia — CI. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-270 — Añadir SBOM — release. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-271 — Añadir firma de artefacto — release. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-272 — Añadir verificación de checksum — release. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-273 — Añadir política de divulgación — documentación. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-274 — Añadir registro de incidentes — operaciones. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-275 — Añadir revisión de permisos — operaciones. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-276 — Añadir prueba de autorización — Vitest. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-277 — Añadir prueba de límite payload — Vitest. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-278 — Añadir prueba de sanitización — Vitest. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-279 — Añadir prueba de CSP — Vitest. · Evidencia: `server/` + prueba de seguridad asociada
+- [ ] IM-280 — Añadir prueba de privacidad local — contrato. · Evidencia: `server/` + prueba de seguridad asociada
+
+## Calidad, pruebas y rendimiento
+- [ ] IM-281 — Añadir cobertura por archivo — CI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-282 — Añadir umbral de cobertura — CI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-283 — Añadir test de audio mock — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-284 — Añadir test de MediaRecorder mock — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-285 — Añadir test de Web MIDI mock — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-286 — Añadir test de IndexedDB mock — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-287 — Añadir test de migración Duck — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-288 — Añadir test de presets — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-289 — Añadir test de render piano roll — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-290 — Añadir test de render mixer — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-291 — Añadir test de foco de pasos — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-292 — Añadir test de atajos — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-293 — Añadir test de resize móvil — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-294 — Añadir test de errores de permiso — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-295 — Añadir test de importación corrupta — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-296 — Añadir test de exportación proyecto — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-297 — Añadir test de exportación preset — UI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-298 — Añadir test de historial composición — E2E. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-299 — Añadir test de kill-switch — E2E. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-300 — Añadir test de providers — E2E. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-301 — Añadir benchmark kernel — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-302 — Añadir benchmark scheduler — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-303 — Añadir benchmark render — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-304 — Añadir perfil memoria audio — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-305 — Añadir perfil memoria lista — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-306 — Añadir lazy load Duck — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-307 — Añadir lazy load lore — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-308 — Añadir virtualización presets — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-309 — Añadir virtualización tomas — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-310 — Añadir memoización de grid — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-311 — Añadir memoización de medidores — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-312 — Añadir throttle de medidores — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-313 — Añadir cancelación de RAF — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-314 — Añadir cancelación de scheduler — rendimiento. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-315 — Añadir test de fuga audio — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-316 — Añadir test de fuga URL blob — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-317 — Añadir test de fuga listener — Vitest. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-318 — Añadir test de bundle — CI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-319 — Añadir budget de bundle — CI. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+- [ ] IM-320 — Añadir reporte de rendimiento — release. · Evidencia: `vitest.config.ts` + prueba o configuración de CI
+
+## Desktop, operaciones y distribución
+- [ ] IM-321 — Añadir Duck al menú Electron — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-322 — Añadir permiso micrófono Electron — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-323 — Añadir permiso MIDI Electron — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-324 — Añadir persistencia Duck Electron — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-325 — Añadir biblioteca Duck Electron — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-326 — Añadir exportación local Electron — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-327 — Añadir protocolo de archivos — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-328 — Añadir actualizador controlado — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-329 — Añadir notas de release — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-330 — Añadir versión visible — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-331 — Añadir diagnóstico de audio — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-332 — Añadir diagnóstico de MIDI — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-333 — Añadir diagnóstico de storage — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-334 — Añadir reporte de crash — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-335 — Añadir modo seguro — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-336 — Añadir restauración de sesión — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-337 — Añadir logs exportables — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-338 — Añadir preferencias de dispositivo — desktop. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-339 — Añadir prueba de empaquetado Duck — CI. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-340 — Añadir prueba de arranque Duck — smoke. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-341 — Añadir healthcheck API — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-342 — Añadir healthcheck base de datos — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-343 — Añadir healthcheck almacenamiento — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-344 — Añadir healthcheck provider — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-345 — Añadir métricas de jobs — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-346 — Añadir métricas de errores — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-347 — Añadir métricas de latencia — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-348 — Añadir trazas de pipeline — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-349 — Añadir alerta de kill-switch — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-350 — Añadir alerta de cuota — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-351 — Añadir runbook de incidente — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-352 — Añadir runbook de rollback — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-353 — Añadir runbook de migración — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-354 — Añadir runbook de backup — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-355 — Añadir backup de MySQL — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-356 — Añadir backup de artefactos — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-357 — Añadir restauración ensayada — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-358 — Añadir monitor de despliegue — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-359 — Añadir verificación post-deploy — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+- [ ] IM-360 — Añadir informe de disponibilidad — operaciones. · Evidencia: `desktop/` o `server/_core/` + runbook operativo
+
+## Documentación, publicación y ecosistema
+- [ ] IM-361 — Añadir guía de arquitectura — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-362 — Añadir diagrama de datos — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-363 — Añadir diagrama de audio Duck — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-364 — Añadir diagrama de pipeline — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-365 — Añadir guía de proveedores — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-366 — Añadir guía de Ollama — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-367 — Añadir guía de MIDI — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-368 — Añadir guía de micrófono — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-369 — Añadir guía de presets — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-370 — Añadir guía de exportación — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-371 — Añadir guía de privacidad — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-372 — Añadir guía de seguridad — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-373 — Añadir guía de accesibilidad — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-374 — Añadir guía de resolución de problemas — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-375 — Añadir changelog — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-376 — Añadir política de versiones — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-377 — Añadir CONTRIBUTING — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-378 — Añadir CODE_OF_CONDUCT — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-379 — Añadir plantilla de issue — Git. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-380 — Añadir plantilla de PR — Git. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-381 — Añadir badges de CI — README. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-382 — Añadir captura de Duck — README. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-383 — Añadir vídeo de uso — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-384 — Añadir demo de proyecto — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-385 — Añadir datos de ejemplo — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-386 — Añadir licencia de presets — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-387 — Añadir atribuciones — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-388 — Añadir matriz de compatibilidad — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-389 — Añadir lista de navegadores — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-390 — Añadir lista de limitaciones — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-391 — Añadir checklist de release — documentación. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-392 — Añadir checklist de publicación — Git. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-393 — Añadir checklist de Drive — operaciones. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-394 — Añadir changelog automatizado — release. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-395 — Añadir release notes automatizadas — release. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-396 — Añadir exportación Git autorizada — Git. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-397 — Añadir respaldo Drive autorizado — Drive. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-398 — Añadir verificación de backup — Drive. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-399 — Añadir informe de estado — release. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release
+- [ ] IM-400 — Añadir matriz de evidencia actualizada — release. · Evidencia: `README.md`, `docs/` o `.github/` + evidencia de release

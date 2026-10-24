@@ -36,8 +36,14 @@ function download(filename: string, content: BlobPart, type: string) {
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
-  anchor.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  document.body.appendChild(anchor);
+  try {
+    anchor.click();
+  } finally {
+    anchor.remove();
+    // Give the browser time to resolve the blob before releasing its URL.
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  }
 }
 
 function Meter({ db }: { db: number }) {

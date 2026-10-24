@@ -126,11 +126,12 @@ export default function DuckStudio() {
       if (target?.closest("input, textarea, select, button, a, summary, [role=button], [role=link], [role=menuitem], [role=slider], [role=tab], [role=checkbox], [role=switch], [contenteditable]")) return;
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); saveLocalProject(); return; }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "e") { event.preventDefault(); saveProjectFile(); return; }
-      // Do not hijack native browser/OS shortcuts such as Ctrl+R or Cmd+Space.
-      if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+      // Preserve browser/OS modifiers while allowing Shift+? on keyboard layouts that need it.
+      if (event.ctrlKey || event.metaKey) return;
+      if (event.key === "?") { event.preventDefault(); setHelpOpen(open => !open); return; }
+      if (event.shiftKey) return;
       if (event.key === " ") { event.preventDefault(); void togglePlayback(); return; }
       if (event.key.toLowerCase() === "r") { event.preventDefault(); void toggleRecording(); return; }
-      if (event.key === "?") { event.preventDefault(); setHelpOpen(open => !open); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);

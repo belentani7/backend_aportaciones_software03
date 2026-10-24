@@ -217,10 +217,16 @@ export default function DuckStudio() {
       if (engine.isRecording) {
         const capture = await engine.stopRecording();
         const take: DuckTake = { id: crypto.randomUUID(), name: `Voz ${new Date().toLocaleTimeString()}`, blob: capture.blob, durationMs: capture.durationMs, mimeType: capture.mimeType, createdAt: Date.now() };
-        await addDuckTake(take);
-        await refreshTakes();
         setRecording(false);
-        toast.success("Toma guardada en la biblioteca local del navegador.");
+        try {
+          await addDuckTake(take);
+          await refreshTakes();
+          toast.success("Toma guardada en la biblioteca local del navegador.");
+        } catch {
+          // Preserve the audio when IndexedDB is unavailable or quota is exceeded.
+          download(`duck-take-${take.createdAt}.webm`, take.blob, take.mimeType);
+          toast.warning("No se pudo guardar en la biblioteca local. Se ha descargado la toma para evitar perderla.");
+        }
       } else {
         engine.startRecording();
         setRecording(true);

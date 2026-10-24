@@ -122,10 +122,12 @@ export default function DuckStudio() {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       // Preserve native keyboard activation and editing inside interactive controls.
-      if (event.defaultPrevented || event.repeat || event.altKey) return;
+      if (event.defaultPrevented || event.repeat || event.altKey || event.isComposing || event.key === "Process") return;
       if (target?.closest("input, textarea, select, button, a, summary, [role=button], [role=link], [role=menuitem], [role=slider], [role=tab], [role=checkbox], [role=switch], [contenteditable]")) return;
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); saveLocalProject(); return; }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "e") { event.preventDefault(); saveProjectFile(); return; }
+      // Do not hijack native browser/OS shortcuts such as Ctrl+R or Cmd+Space.
+      if (event.ctrlKey || event.metaKey || event.shiftKey) return;
       if (event.key === " ") { event.preventDefault(); void togglePlayback(); return; }
       if (event.key.toLowerCase() === "r") { event.preventDefault(); void toggleRecording(); return; }
       if (event.key === "?") { event.preventDefault(); setHelpOpen(open => !open); }

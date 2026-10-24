@@ -60,8 +60,9 @@ function StepButton({ active, current, lane, index, onToggle }: { active: boolea
 export default function DuckStudio() {
   const [, setLocation] = useLocation();
   // Read browser storage only once so the initial project and undo history match.
-  const [history, setHistory] = useState<DuckProjectHistory>(() => createDuckProjectHistory(loadDuckProject()));
-  const [project, setProject] = useState<DuckProject>(() => history.entries[history.index] ?? createDefaultDuckProject());
+  const [initialProject] = useState<DuckProject>(() => loadDuckProject());
+  const [project, setProject] = useState<DuckProject>(initialProject);
+  const [history, setHistory] = useState<DuckProjectHistory>(() => createDuckProjectHistory(initialProject));
   const [activeStep, setActiveStep] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [engineState, setEngineState] = useState("OFFLINE");

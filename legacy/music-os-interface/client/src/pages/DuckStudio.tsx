@@ -224,8 +224,9 @@ export default function DuckStudio() {
           toast.success("Toma guardada en la biblioteca local del navegador.");
         } catch {
           // Preserve the audio when IndexedDB is unavailable or quota is exceeded.
-          download(`duck-take-${take.createdAt}.webm`, take.blob, take.mimeType);
-          toast.warning("No se pudo guardar en la biblioteca local. Se ha descargado la toma para evitar perderla.");
+          const extension = take.mimeType.includes("mp4") ? "m4a" : take.mimeType.includes("ogg") ? "ogg" : "webm";
+          download(`duck-take-${take.createdAt}.${extension}`, take.blob, take.mimeType);
+          toast.warning("No se pudo guardar en la biblioteca local. Se ha iniciado la descarga de la toma; comprueba que el navegador la haya guardado.");
         }
       } else {
         engine.startRecording();

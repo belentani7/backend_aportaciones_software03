@@ -36,8 +36,14 @@ function download(filename: string, content: BlobPart, type: string) {
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
-  anchor.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  document.body.appendChild(anchor);
+  try {
+    anchor.click();
+  } finally {
+    anchor.remove();
+    // Give the browser time to resolve the blob before releasing its URL.
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  }
 }
 
 function Meter({ db }: { db: number }) {
@@ -59,8 +65,10 @@ function StepButton({ active, current, lane, index, onToggle }: { active: boolea
 
 export default function DuckStudio() {
   const [, setLocation] = useLocation();
-  const [project, setProject] = useState<DuckProject>(() => loadDuckProject());
-  const [history, setHistory] = useState<DuckProjectHistory>(() => createDuckProjectHistory(loadDuckProject()));
+  // Read browser storage only once so the initial project and undo history match.
+  const [initialProject] = useState<DuckProject>(() => loadDuckProject());
+  const [project, setProject] = useState<DuckProject>(initialProject);
+  const [history, setHistory] = useState<DuckProjectHistory>(() => createDuckProjectHistory(initialProject));
   const [activeStep, setActiveStep] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [engineState, setEngineState] = useState("OFFLINE");
@@ -121,12 +129,17 @@ export default function DuckStudio() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
-      if (target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
+      // Preserve native keyboard activation and editing inside interactive controls.
+      if (event.defaultPrevented || event.repeat || event.altKey || event.isComposing || event.key === "Process") return;
+      if (target?.closest("input, textarea, select, button, a, summary, [role=button], [role=link], [role=menuitem], [role=slider], [role=tab], [role=checkbox], [role=switch], [contenteditable]")) return;
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); saveLocalProject(); return; }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "e") { event.preventDefault(); saveProjectFile(); return; }
+      // Preserve browser/OS modifiers while allowing Shift+? on keyboard layouts that need it.
+      if (event.ctrlKey || event.metaKey) return;
+      if (event.key === "?") { event.preventDefault(); setHelpOpen(open => !open); return; }
+      if (event.shiftKey) return;
       if (event.key === " ") { event.preventDefault(); void togglePlayback(); return; }
       if (event.key.toLowerCase() === "r") { event.preventDefault(); void toggleRecording(); return; }
-      if (event.key === "?") { event.preventDefault(); setHelpOpen(open => !open); }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -210,10 +223,17 @@ export default function DuckStudio() {
       if (engine.isRecording) {
         const capture = await engine.stopRecording();
         const take: DuckTake = { id: crypto.randomUUID(), name: `Voz ${new Date().toLocaleTimeString()}`, blob: capture.blob, durationMs: capture.durationMs, mimeType: capture.mimeType, createdAt: Date.now() };
-        await addDuckTake(take);
-        await refreshTakes();
         setRecording(false);
-        toast.success("Toma guardada en la biblioteca local del navegador.");
+        try {
+          await addDuckTake(take);
+          await refreshTakes();
+          toast.success("Toma guardada en la biblioteca local del navegador.");
+        } catch {
+          // Preserve the audio when IndexedDB is unavailable or quota is exceeded.
+          const extension = take.mimeType.includes("mp4") ? "m4a" : take.mimeType.includes("ogg") ? "ogg" : "webm";
+          download(`duck-take-${take.createdAt}.${extension}`, take.blob, take.mimeType);
+          toast.warning("No se pudo guardar en la biblioteca local. Se ha iniciado la descarga de la toma; comprueba que el navegador la haya guardado.");
+        }
       } else {
         engine.startRecording();
         setRecording(true);

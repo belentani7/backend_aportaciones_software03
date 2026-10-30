@@ -20,7 +20,7 @@
     "desktop:build:dir": "pnpm build && electron-builder --win dir --x64"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1112.0",
+    "@aws-sdk/client-s3": "^3.1158.0",
     "@aws-sdk/s3-request-presigner": "^3.1112.0",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",

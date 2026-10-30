@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Bloques propios del ecosistema (los mirrors de terceros se excluyen a propósito)
+  - package-ecosystem: "pip"
+    directory: "/legacy/ai-music-production-lab-commerce-os/ecosystem/backend"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/legacy/ai-music-production-lab-commerce-os/monitoring"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/legacy/MusicAI_Production"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/legacy/voice-ai-agency"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/legacy/music-os-interface"
+    schedule:
+      interval: "weekly"

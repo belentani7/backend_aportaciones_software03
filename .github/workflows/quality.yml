@@ -3,6 +3,7 @@ on:
   push:
     branches: ["main"]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -14,5 +15,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
-      - run: python -m unittest discover
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: legacy/ai-music-production-lab-commerce-os/ecosystem/backend/requirements.txt
+      - name: Verificación de protocolos
+        run: test -f README.md && test -f LICENSE && test -f .gitignore
+      - name: Instalar dependencias del bloque commerce-os
+        run: python -m pip install pytest-timeout -r legacy/ai-music-production-lab-commerce-os/ecosystem/backend/requirements.txt
+      - name: Sintaxis Python (compileall de todo el repo)
+        run: python -m compileall -q . -x "(node_modules|\.venv|venv|build|dist)"
+      - name: Tests del bloque commerce-os (pytest)
+        env:
+          PYTHONPATH: legacy/ai-music-production-lab-commerce-os/ecosystem/backend
+        run: pytest -q legacy/ai-music-production-lab-commerce-os/ecosystem/tests --timeout=60

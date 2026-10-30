@@ -53,7 +53,7 @@ kornia==0.7.2
 gradio==5.5.0
 fastapi==0.115.0
 uvicorn==0.30.6
-websockets==13.1
+websockets==17.3
 aiohttp==3.10.5
 
 # Utilities
